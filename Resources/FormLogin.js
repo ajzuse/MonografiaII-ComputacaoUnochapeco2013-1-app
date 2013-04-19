@@ -1,4 +1,4 @@
-Ti.include("Funcoes.js");
+Ti.include('Funcoes.js');
 
 function FormLogin()
 {
@@ -17,6 +17,7 @@ function FormLogin()
 	var lblLogin, lblSenha;  //Label de Usuario e Senha
 	var scroll;
 	var imgUnochapeco;
+	var btnLogin;
 	
 	this.create = function()
 	{
@@ -32,15 +33,75 @@ function FormLogin()
 			showVerticalScrollIndicator: true
 		});
 		
-		var imgUnochapeco = Ti.UI.createImageView({
-			image:'UNO21.jpg',
+		imgUnochapeco = Ti.UI.createImageView({
+			image:'LogoUno.png',
 	    	height: AlturaImagem,
 	    	width: LarguraImagem,
 	    	top: calcularProporcaoAlturaTela(5),
 	    	left: DistanciaBorda
 		});
 		
+		lblUsuario = Ti.UI.createLabel
+		({
+			text: 'Usuário',
+		    textAlign:'center',
+		    top: imgUnochapeco.top + AlturaImagem + calcularProporcaoAlturaTela(2),
+		  	height: AlturaLabel,
+		    width:  LarguraLabel,
+		    left:   DistanciaBorda
+		});
+		
+		edtUsuario = Ti.UI.createTextField
+		({
+		  	top: lblUsuario.top + AlturaLabel,
+		    height: AlturaEdit,
+		    width: LarguraEdit,
+		    left: DistanciaBorda,
+		    enableReturnKey:false,
+		   	borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
+		   	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT
+		});
+		
+		lblSenha = Ti.UI.createLabel
+		({
+			text: 'Senha',
+		    textAlign:'center',
+		    top: edtUsuario.top + AlturaEdit + calcularProporcaoAlturaTela(1),
+		    height: AlturaLabel,
+		    width: LarguraLabel,
+		    left: DistanciaBorda
+		});
+		
+		edtSenha = Ti.UI.createTextField
+		({
+			width: LarguraEdit,
+		  	height: AlturaEdit,
+		  	top: lblSenha.top + AlturaLabel,
+		    left: DistanciaBorda,
+		    passwordMask:true,
+		    enableReturnKey:false,
+		   	borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
+		   	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT
+		});
+		
+		//Botoes
+		btnLogin = Ti.UI.createButton
+		({
+			width: LarguraEdit,
+			height: AlturaEdit,
+			top: edtSenha.top + AlturaEdit + calcularProporcaoAlturaTela(10),
+		    left: DistanciaBorda,
+		    title: 'Login'
+		});
+		
 		scroll.add(imgUnochapeco);
+		scroll.add(lblUsuario);
+		scroll.add(edtUsuario);
+		scroll.add(lblSenha);
+		scroll.add(edtSenha);
+		scroll.add(btnLogin);
 		form.add(scroll);
 		form.open();
 	};
+	
+}
