@@ -18,9 +18,8 @@ function FormLogin()
 	var scroll;
 	var imgUnochapeco;
 	var btnLogin;
-	
-	//Variaveis de Controle
-	this.loginValido = false;
+
+	var loginValido;
 	
 	this.create = function()
 	{		
@@ -102,16 +101,11 @@ function FormLogin()
  			var client = Ti.Network.createHTTPClient({
      			// function called when the response data is available
      			onload : function(e) {
-         			Ti.API.info("Received text: " + this.responseText);
-         			
-         			loginValido = this.responseText;
-         			
-         			alert(loginValido);
-         			
+         			Ti.API.info("Received text: " + this.responseText);					         			
      			},
     		 	// function called when an error occurs, including a timeout
      			onerror : function(e) {
-     				alert('Ocorreu um problema na comunicação com o servidor. Tente novamente mais tarde!')
+     				msgBox('Atenção', 'Ocorreu um problema na comunicação com o servidor. Verifique sua conexão com a internet ou tente novamente mais tarde.');
          			Ti.API.debug(e.error);
     	    	},
      			timeout : 5000  // in milliseconds
@@ -119,7 +113,8 @@ function FormLogin()
  			// Prepare the connection.
 	 		client.open("GET", url);
  			// Send the request.
- 			client.send();   		
+ 			client.send();  
+ 					
 
 		});
 		
