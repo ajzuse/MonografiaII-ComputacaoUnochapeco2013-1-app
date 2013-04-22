@@ -99,7 +99,7 @@ function FormLogin()
 		
 		btnLogin.addEventListener('click', function(e){
 			var Conexao = new ConexaoServidor(edtUsuario.value, edtSenha.value);
-			Conexao.extrairInformacoes();
+			Conexao.extrairInformacoes(function(){alert('Fim da Extração')});
 		});
 		
 		scroll.add(imgUnochapeco);
