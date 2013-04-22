@@ -49,7 +49,9 @@ var ConexaoServidor = function(_Usuario, _Senha)
  		var client = Ti.Network.createHTTPClient({
      	// function called when the response data is available
     	onload : function(e) {
-     		Ti.API.info("Received text: " + this.responseText);
+     		var json = JSON.parse(this.responseText);
+     		Ti.API.info("Received text: " + json);
+
      		if(_proximaFuncao)	
      			_proximaFuncao();         			
     	},
@@ -72,7 +74,9 @@ var ConexaoServidor = function(_Usuario, _Senha)
  		var client = Ti.Network.createHTTPClient({
      	// function called when the response data is available
     	onload : function(e) {
-     		Ti.API.info("Received text: " + this.responseText);	
+    		var json = JSON.parse(this.responseText);
+     		Ti.API.info("Received text: " + json);
+    		
      		if(_proximaFuncao)	
      			_proximaFuncao();  
     	},
@@ -95,7 +99,9 @@ var ConexaoServidor = function(_Usuario, _Senha)
  		var client = Ti.Network.createHTTPClient({
      	// function called when the response data is available
     	onload : function(e) {
-     		Ti.API.info("Received text: " + this.responseText);	
+     		var json = JSON.parse(this.responseText);
+     		Ti.API.info("Received text: " + json);
+	
      		if(_proximaFuncao)	
      			_proximaFuncao();  
     	},
@@ -123,7 +129,7 @@ var ConexaoServidor = function(_Usuario, _Senha)
 
  		validarLogin(function(){
  			Ti.API.info('Login Accepted! Começou a extracao de dados.');
- 			extrairMaterialApoio(urlMaterialApoio, extrairHorariosSemestre(urlHorariosSemestre, extrairNotasGraduacao(urlNotasGraduacao, 0)));
+ 			extrairMaterialApoio(urlMaterialApoio, extrairHorariosSemestre(urlHorariosSemestre, extrairNotasGraduacao(urlNotasGraduacao, _EventoFimExtracao)));
  		});
  	}
  	
