@@ -1,5 +1,5 @@
 Ti.include('Funcoes.js');
-Ti.include('Conexao.js');
+Ti.include('conexao.js');
 
 function FormLogin()
 {
@@ -99,6 +99,7 @@ function FormLogin()
 		
 		btnLogin.addEventListener('click', function(e){
 			var Conexao = new ConexaoServidor(edtUsuario.value, edtSenha.value);
+			Conexao.extrairInformacoes();
 		});
 		
 		scroll.add(imgUnochapeco);
