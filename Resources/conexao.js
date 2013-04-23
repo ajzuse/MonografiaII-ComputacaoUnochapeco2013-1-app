@@ -49,9 +49,25 @@ var ConexaoServidor = function(_Usuario, _Senha)
  		var client = Ti.Network.createHTTPClient({
      	// function called when the response data is available
     	onload : function(e) {
+    		Ti.API.info(this.responseText);
      		var json = JSON.parse(this.responseText);
-     		Ti.API.info("Received text: " + json);
+			var i, j, disciplina, detalhes;
+			
+			database = Ti.Database.open(databaseName);
+			database.execute('delete from MaterialApoio;');
+			
+			for (i = 0; i < json.disciplinas.length; i++) {
+				disciplina = json.disciplinas[i];
+				Ti.API.info(disciplina.nome);
 
+				for(j = 0; j < disciplina.materiais.length; j++){
+					detalhe = disciplina.materiais[j];
+					database.execute('insert into MaterialApoio (nomeDisciplina, publicacao, nome, descricao, url) values (?,?,?,?,?);', disciplina.nome, detalhe.publicacao, detalhe.nome, detalhe.descricao, detalhe.url);
+				}
+			}
+			
+			database.close();
+			
      		if(_proximaFuncao)	
      			_proximaFuncao();         			
     	},
@@ -75,7 +91,11 @@ var ConexaoServidor = function(_Usuario, _Senha)
      	// function called when the response data is available
     	onload : function(e) {
     		var json = JSON.parse(this.responseText);
-     		Ti.API.info("Received text: " + json);
+    		var i, disciplinas, detalhes;
+
+    		for (i = 0; i < json.disciplinas.length; i++) {
+				Ti.API.info(json.disciplinas[i].nome);
+			}
     		
      		if(_proximaFuncao)	
      			_proximaFuncao();  
@@ -100,7 +120,11 @@ var ConexaoServidor = function(_Usuario, _Senha)
      	// function called when the response data is available
     	onload : function(e) {
      		var json = JSON.parse(this.responseText);
-     		Ti.API.info("Received text: " + json);
+     		var i, disciplinas, detalhes;
+	
+			for (i = 0; i < json.disciplinas.length; i++) {
+				
+			}
 	
      		if(_proximaFuncao)	
      			_proximaFuncao();  
