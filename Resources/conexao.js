@@ -9,7 +9,6 @@ var ConexaoServidor = function(_Usuario, _Senha)
  		var client = Ti.Network.createHTTPClient({
      	// function called when the response data is available
     	onload : function(e) {
-     		Ti.API.info("Received text: " + this.responseText);	
      		if(this.responseText == '1')
      		   _EventoLoginValido();			         			
     	},
@@ -32,11 +31,22 @@ var ConexaoServidor = function(_Usuario, _Senha)
  		Ti.API.info("Inicializando Base de Dados"); 		
 		database = Ti.Database.open(databaseName);
 		
+		/*
+		 * Código de Emergencia... Use com sabedoria!
+		 */
+		/*
+		database.execute('DROP TABLE HorarioSemestre;');
+		database.execute('DROP TABLE HorarioSemestreDisciplina;');
+		database.execute('DROP TABLE NotaGraduacao;');
+		database.execute('DROP TABLE NotaGraduacaoAvaliacao;');
+		database.execute('DROP TABLE MaterialApoio;');
+		*/
+		
 		//Criação das tabelas feitas desta forma pois não funcionou a passagem de variáveis com o SQL para a função execute.
-		database.execute('CREATE TABLE IF NOT EXISTS HorarioSemestre(codigo INTEGER PRIMARY KEY, turma TEXT, nome TEXT, curso TEXT, dataG2 TEXT, dataG3 TEXT, professor TEXT, creditos INTEGER, turno TEXT, grade INTEGER, periodo INTEGER);');
-		database.execute('CREATE TABLE IF NOT EXISTS HorarioSemestreDisciplina(codigo INTEGER PRIMARY KEY, turma TEXT, hora TEXT, diasemana TEXT, data TEXT, ocorreu TEXT);');
+		database.execute('CREATE TABLE IF NOT EXISTS HorarioSemestre(codigo TEXT, turma TEXT, nome TEXT, curso TEXT, dataG2 TEXT, dataG3 TEXT, professor TEXT, creditos INTEGER, turno TEXT, grade INTEGER, periodo INTEGER);');
+		database.execute('CREATE TABLE IF NOT EXISTS HorarioSemestreDisciplina(codigo TEXT, turma TEXT, hora TEXT, diasemana TEXT, data TEXT, ocorreu TEXT);');
 		database.execute('CREATE TABLE IF NOT EXISTS NotaGraduacao(nome TEXT, notaG3 FLOAT, mediaFinal FLOAT, notaG2 FLOAT, notaG1 FLOAT, estadoMateria TEXT, statusAcademico TEXT);');
-		database.execute('CREATE TABLE IF NOT EXISTS NotaGraduacaoAcademico(nomeDisciplina TEXT, peso TEXT, nota FLOAT, data TEXT, nome TEXT);');
+		database.execute('CREATE TABLE IF NOT EXISTS NotaGraduacaoAvaliacao(nomeDisciplina TEXT, peso TEXT, nota FLOAT, data TEXT, nome TEXT);');
 		database.execute('CREATE TABLE IF NOT EXISTS MaterialApoio(nomeDisciplina TEXT, publicacao TEXT, nome TEXT, descricao TEXT, url TEXT);');
 		
 		database.close();
@@ -49,7 +59,6 @@ var ConexaoServidor = function(_Usuario, _Senha)
  		var client = Ti.Network.createHTTPClient({
      	// function called when the response data is available
     	onload : function(e) {
-    		Ti.API.info(this.responseText);
      		var json = JSON.parse(this.responseText);
 			var i, j, disciplina, detalhes;
 			
@@ -58,7 +67,6 @@ var ConexaoServidor = function(_Usuario, _Senha)
 			
 			for (i = 0; i < json.disciplinas.length; i++) {
 				disciplina = json.disciplinas[i];
-				Ti.API.info(disciplina.nome);
 
 				for(j = 0; j < disciplina.materiais.length; j++){
 					detalhe = disciplina.materiais[j];
@@ -91,11 +99,32 @@ var ConexaoServidor = function(_Usuario, _Senha)
      	// function called when the response data is available
     	onload : function(e) {
     		var json = JSON.parse(this.responseText);
-    		var i, disciplinas, detalhes;
+			var i, j, disciplina, detalhes;
+			
+			database = Ti.Database.open(databaseName);
+			database.execute('delete from NotaGraduacao;');
+			database.execute('delete from NotaGraduacaoAvaliacao');
+			
+			for (i = 0; i < json.disciplinas.length; i++) {
+				disciplina = json.disciplinas[i];
 
-    		for (i = 0; i < json.disciplinas.length; i++) {
-				Ti.API.info(json.disciplinas[i].nome);
+				if(disciplina.dados.estado == 'fechada')
+				{
+					database.execute('insert into NotaGraduacao (nome, notaG3, mediaFinal, notaG2, notaG1, estadoMateria, statusAcademico) values (?,?,?,?,?,?,?);', disciplina.nome, disciplina.dados.G3, disciplina.dados.MF, disciplina.dados.G2, disciplina.dados.G1, disciplina.dados.estado, disciplina.dados.status);
+				}
+				else
+				{
+					database.execute('insert into NotaGraduacao (nome, notaG3, mediaFinal, notaG2, notaG1, estadoMateria, statusAcademico) values (?,?,?,?,?,?,?);', disciplina.nome, 0, 0, disciplina.dados.mediaG2, disciplina.dados.mediaG1, disciplina.dados.estado, "");
+					
+					for (j = 0; j < disciplina.dados.avaliacoes.length; j++)
+					{
+						database.execute('insert into NotaGraduacaoAvaliacao (nomeDisciplina, peso, nota, data, nome) values (?,?,?,?,?);', disciplina.nome, disciplina.dados.avaliacoes[j].peso, disciplina.dados.avaliacoes[j].nota, disciplina.dados.avaliacoes[j].data, disciplina.dados.avaliacoes[j].nome);
+					}
+				}
+				
 			}
+			
+			database.close();
     		
      		if(_proximaFuncao)	
      			_proximaFuncao();  
@@ -119,13 +148,31 @@ var ConexaoServidor = function(_Usuario, _Senha)
  		var client = Ti.Network.createHTTPClient({
      	// function called when the response data is available
     	onload : function(e) {
-     		var json = JSON.parse(this.responseText);
-     		var i, disciplinas, detalhes;
-	
+			var json = JSON.parse(this.responseText);
+     		var i, j, disciplina, detalhes;
+			
+			database = Ti.Database.open(databaseName);
+			database.execute('delete from HorarioSemestre;');
+			database.execute('delete from HorarioSemestreDisciplina');
+			
 			for (i = 0; i < json.disciplinas.length; i++) {
+				disciplina = json.disciplinas[i];
+
+
+				database.execute('insert into HorarioSemestre(codigo, turma, nome, curso, dataG2, dataG3, professor, creditos, turno, grade, periodo) values (?,?,?,?,?,?,?,?,?,?,?);', disciplina.codigo, disciplina.turma, disciplina.nome, disciplina.dados.detalhes.curso, disciplina.dados.detalhes.g2, disciplina.dados.detalhes.g3, disciplina.dados.detalhes.professor, disciplina.dados.detalhes.creditos, disciplina.dados.detalhes.turno, disciplina.dados.detalhes.grade, disciplina.dados.detalhes.periodo);
+				
+				for(j = 0; j < disciplina.dados.horarios.length; j++)
+				{
+					var horario = disciplina.dados.horarios[j];
+					
+					database.execute('insert into HorarioSemestreDisciplina(codigo, turma, hora, diasemana, data, ocorreu) values (?,?,?,?,?,?);', disciplina.codigo, disciplina.turma, horario.hora, horario.semana, horario.dia, horario.ocorreu);
+				}
 				
 			}
-	
+			
+			database.close();
+
+			activityIndicator.show();
      		if(_proximaFuncao)	
      			_proximaFuncao();  
     	},
@@ -152,7 +199,6 @@ var ConexaoServidor = function(_Usuario, _Senha)
  		inicializarDatabase();
 
  		validarLogin(function(){
- 			Ti.API.info('Login Accepted! Começou a extracao de dados.');
  			extrairMaterialApoio(urlMaterialApoio, extrairHorariosSemestre(urlHorariosSemestre, extrairNotasGraduacao(urlNotasGraduacao, _EventoFimExtracao)));
  		});
  	}
