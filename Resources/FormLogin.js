@@ -19,8 +19,6 @@ function FormLogin()
 	var scroll;
 	var imgUnochapeco;
 	var btnLogin;
-
-	var loginValido;
 	
 	this.create = function()
 	{		
@@ -99,7 +97,12 @@ function FormLogin()
 		
 		btnLogin.addEventListener('click', function(e){
 			var Conexao = new ConexaoServidor(edtUsuario.value, edtSenha.value);
-			Conexao.extrairInformacoes(function(){alert('Fim da Extração')});
+			Conexao.extrairInformacoes(function(){
+				alert('Teste');
+				var formPrincipal = new FormPrincipal();
+				formPrincipal.create();
+				form.close();
+			});
 		});
 		
 		scroll.add(imgUnochapeco);

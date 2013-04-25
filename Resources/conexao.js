@@ -1,6 +1,7 @@
 
 var ConexaoServidor = function(_Usuario, _Senha)
 {
+	//var urlBase = "http://minhaunomovel.no-ip.org:90?usuario=" + _Usuario + "&senha=" + _Senha;	
 	var urlBase = "http://192.168.1.200:90?usuario=" + _Usuario + "&senha=" + _Senha;	
 	var database, databaseName = 'MinhaUnoDB';
 		
@@ -28,7 +29,6 @@ var ConexaoServidor = function(_Usuario, _Senha)
  	
  	var inicializarDatabase = function()
  	{
- 		Ti.API.info("Inicializando Base de Dados"); 		
 		database = Ti.Database.open(databaseName);
 		
 		/*
@@ -50,8 +50,6 @@ var ConexaoServidor = function(_Usuario, _Senha)
 		database.execute('CREATE TABLE IF NOT EXISTS MaterialApoio(nomeDisciplina TEXT, publicacao TEXT, nome TEXT, descricao TEXT, url TEXT);');
 		
 		database.close();
-		
-		Ti.API.info('Chegou ao fim da criacao da base');
  	}
  	
  	var extrairMaterialApoio = function(_url, _proximaFuncao)
