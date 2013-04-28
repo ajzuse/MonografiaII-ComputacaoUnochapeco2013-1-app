@@ -98,10 +98,13 @@ function FormLogin()
 		btnLogin.addEventListener('click', function(e){
 			var Conexao = new ConexaoServidor(edtUsuario.value, edtSenha.value);
 			Conexao.extrairInformacoes(function(){
-				alert('Teste');
-				var formPrincipal = new FormPrincipal();
-				formPrincipal.create();
-				form.close();
+
+			var win = Titanium.UI.createWindow({
+    			url: 'FormPrincipal.js',
+			});
+			
+			win.open();
+			form.close();
 			});
 		});
 		

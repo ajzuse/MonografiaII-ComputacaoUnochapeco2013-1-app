@@ -170,7 +170,6 @@ var ConexaoServidor = function(_Usuario, _Senha)
 			
 			database.close();
 
-			activityIndicator.show();
      		if(_proximaFuncao)	
      			_proximaFuncao();  
     	},
