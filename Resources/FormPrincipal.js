@@ -53,39 +53,8 @@ tableview.addEventListener('click', function(e)
     var index = e.index;
     
     if(index == 0)
-   {
-   		/*
-   			Retorna o nome das disciplinas
-   		
-   		var db = Ti.Database.open('MinhaUnoDB')
-   		var cityWeatherRS = db.execute('SELECT distinct NomeDisciplina FROM MaterialApoio ORDER BY NomeDisciplina');
-		while (cityWeatherRS.isValidRow())
-		{
-  			var cityId = cityWeatherRS.fieldByName('NomeDisciplina');
-  			Ti.API.info(cityId);
-  			cityWeatherRS.next();
-		}
-		cityWeatherRS.close();*/
-		/*
-			Consulta que retorna os materiais da disciplina
-	
-		var db = Ti.Database.open('MinhaUnoDB')
-   		var cityWeatherRS = db.execute('SELECT distinct Nome, url FROM MaterialApoio where nomedisciplina = \'1030292 - INFORMÁTICA E SOCIEDADE\'');
-		while (cityWeatherRS.isValidRow())
-		{
-  			var cityId = cityWeatherRS.fieldByName('Nome');
-  			var bla = cityWeatherRS.fieldByName('URL');
-  			Ti.API.info(cityId + bla);
-  			cityWeatherRS.next();
-		}
-		cityWeatherRS.close();
-		*/
-		
-		var win = Titanium.UI.createWindow({
-    			url: 'FormConsultaMaterial.js',
-			});
-			
-			win.open();
+   {	
+		Ti.include('FormConsultaMaterial.js');
    	}
    	
    	
