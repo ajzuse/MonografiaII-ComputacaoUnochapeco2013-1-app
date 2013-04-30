@@ -22,8 +22,8 @@ function FormConsultaMaterialDisciplina(_NomeDisciplina)
 				id: disciplinas.fieldByName('url'),
 			});
 			var label = Ti.UI.createLabel({
-				text: disciplinas.fieldByName('nome'),
-				id: disciplinas.fieldByName('nome'),
+				text: disciplinas.fieldByName('publicacao'),
+				id: disciplinas.fieldByName('publicacao'),
 				height:'auto',
 				left:'15dp',
 				top:'5dp',
@@ -32,16 +32,16 @@ function FormConsultaMaterialDisciplina(_NomeDisciplina)
 				
 				font:
 				{
-                	fontSize:'16dp',
+                	fontSize:'12dp',
             		fontWeight:'bold'
             	}
 			});
 			
 			var publicacao = Ti.UI.createLabel({
-        	text: disciplinas.fieldByName('publicacao'),
+        	text: disciplinas.fieldByName('nome'),
         	id: disciplinas.fieldByName('descricao'),
 	        font:{
-	            fontSize:'16dp'
+	            fontSize:'auto'
 	        },
 	        height:'auto',
 	        left:'15dp',

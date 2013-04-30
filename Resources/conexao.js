@@ -1,8 +1,8 @@
 
 var ConexaoServidor = function(_Usuario, _Senha)
 {
-	var urlBase = "http://minhaunomovel.no-ip.org:90?usuario=" + _Usuario + "&senha=" + _Senha;	
-	//var urlBase = "http://192.168.1.200:90?usuario=" + _Usuario + "&senha=" + _Senha;	
+	//var urlBase = "http://minhaunomovel.no-ip.org:90?usuario=" + _Usuario + "&senha=" + _Senha;	
+	var urlBase = "http://192.168.1.200:90?usuario=" + _Usuario + "&senha=" + _Senha;	
 	var database, databaseName = 'MinhaUnoDB';
 		
  	var validarLogin = function(_EventoLoginValido)
