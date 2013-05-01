@@ -24,6 +24,7 @@ while (disciplinas.isValidRow())
 		id: disciplinas.fieldByName('NomeDisciplina'),
 		height:'auto',
 		left:'10dp',
+		right: '10dp',
 		top:'5dp',
 		color:'#000',
 		touchEnabled:false

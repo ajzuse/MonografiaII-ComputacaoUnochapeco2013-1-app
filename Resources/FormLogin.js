@@ -96,8 +96,8 @@ function FormLogin()
 		});
 		
 		btnLogin.addEventListener('click', function(e){
-			var Conexao = new ConexaoServidor(edtUsuario.value, edtSenha.value);
-			Conexao.extrairInformacoes(function(){
+//			var Conexao = new ConexaoServidor(edtUsuario.value, edtSenha.value);
+//			Conexao.extrairInformacoes(function(){
 			var win = Titanium.UI.createWindow({
     			url: 'FormPrincipal.js',
     			backgroundColor: 'white'
@@ -105,7 +105,7 @@ function FormLogin()
 			
 			win.open();
 			form.close();
-			});
+//			});
 		});
 		
 		scroll.add(imgUnochapeco);
