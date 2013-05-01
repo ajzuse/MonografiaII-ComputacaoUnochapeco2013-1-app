@@ -51,9 +51,10 @@ tableview.addEventListener('click', function(e)
    	{	
 		Ti.include('FormConsultaNota.js');
    	}
-   	
-   	
-	
+   	else if(index == 2)
+   	{
+   		Ti.include('FormConsultaHorarioSemestre.js');	
+   	}
 	else if(index == 3)
 	{
 		msgBox('Sobre', 'Trabalho de conclusão do curso de Ciência da Computação 2013/1. \n\nAcadêmico: Andrei Jiácomo Zuse \nOrientador: Marcelo Cezar Pinto');

@@ -54,7 +54,7 @@ tvDisciplinasApoio.addEventListener('click', function(e)
 	if(detalheNotas.fieldByName('estadoMateria') == 'fechada')
 	{
 		var msgG1 = 'Média de G1: ' + detalheNotas.fieldByName('notaG1') + '\n';
-		var msgG2 = 'Média de G1: ' + detalheNotas.fieldByName('notaG2') + '\n';
+		var msgG2 = 'Média de G2: ' + detalheNotas.fieldByName('notaG2') + '\n';
 		var msgMediaFinal = 'Média Final: ' + detalheNotas.fieldByName('mediaFinal') + '\n';
 		var statusAcademico = 'Status: ' + detalheNotas.fieldByName('statusAcademico') + '\n';
 		

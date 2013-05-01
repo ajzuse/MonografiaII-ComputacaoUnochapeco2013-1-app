@@ -1,9 +1,7 @@
 function FormConsultaNotaDetalhe()
 {
 	this.create = function(_NomeDisciplina)
-	{
-		Ti.API.info(_NomeDisciplina);
-		
+	{		
 		var dados = [];
 		var formConsultaNotaDetalhe = Titanium.UI.createWindow({
 			top: 0,
