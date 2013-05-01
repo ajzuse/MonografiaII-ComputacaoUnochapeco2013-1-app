@@ -21,14 +21,6 @@ else
 	DistanciaBorda = calcularProporcaoLarguraTela(10);
 }
 
-var scrScroll = Ti.UI.createScrollView
-({
-	contentWidth:'auto', 
-	contentHeight:'auto', 
-	top: 0, 
-	showVerticalScrollIndicator: true
-});
-
 var imgUnochapeco = Ti.UI.createImageView
 ({
 	image:'LogoUno.png',
@@ -43,7 +35,6 @@ var tableview = Titanium.UI.createTableView({
 	top: calcularProporcaoAlturaTela(20),
 	height: AlturaGrid,
     data:Opcoes,
-    style: Titanium.UI.iPhone.TableViewStyle.GROUPED
 });
  
 // create table view event listener
@@ -69,6 +60,5 @@ tableview.addEventListener('click', function(e)
 	}
 });
 
-scrScroll.add(imgUnochapeco);
-scrScroll.add(tableview);
-Ti.UI.currentWindow.add(scrScroll);
+Ti.UI.currentWindow.add(imgUnochapeco);
+Ti.UI.currentWindow.add(tableview)

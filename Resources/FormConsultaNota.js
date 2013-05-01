@@ -1,4 +1,5 @@
 Ti.include('Funcoes.js');
+Ti.include('FormConsultaNotaDetalhe.js');
 
 var dados = [];
 
@@ -40,29 +41,12 @@ db.close();
 var tvDisciplinasApoio = Titanium.UI.createTableView({
 	top: 0,
 	height: calcularProporcaoAlturaTela(75),
-	data: dados,
-	style: Titanium.UI.iPhone.TableViewStyle.GROUPED
-
+	data: dados
 });
  
 // create table view event listener
 tvDisciplinasApoio.addEventListener('click', function(e)
 {
-/*
- * SQL de criação da tabela:
- *  CREATE TABLE IF NOT EXISTS NotaGraduacao(nome TEXT, 
- * 	                                         notaG3 FLOAT, 
- * 	                                         mediaFinal FLOAT, 
- *                                           notaG2 FLOAT, 
- *                                           notaG1 FLOAT, 
- *                                           estadoMateria TEXT, 
- *                                           statusAcademico TEXT);
- *  CREATE TABLE IF NOT EXISTS NotaGraduacaoAvaliacao(nomeDisciplina TEXT, 
- * 	                                                  peso TEXT, 
- *                                                    nota FLOAT, 
- *                                                    data TEXT, 
- *                                                    nome TEXT);
- */
 	var db = Ti.Database.open('MinhaUnoDB')
 	var detalheNotas = db.execute('select nome, notaG3, mediaFinal, notaG2, notaG1, estadoMateria, statusAcademico from notagraduacao where nome = ?', e.rowData.id);
 	var conteudo, listaBotoes;
@@ -103,7 +87,8 @@ tvDisciplinasApoio.addEventListener('click', function(e)
 	Msg.addEventListener('click', function(click){
 		if(click.index == 1)
 		{
-			
+			var detalhes = new FormConsultaNotaDetalhe();
+			detalhes.create(e.rowData.id);
 		}
 	});
 	

@@ -41,9 +41,7 @@ db.close();
 var tvDisciplinasApoio = Titanium.UI.createTableView({
 	top: 0,
 	height: calcularProporcaoAlturaTela(75),
-	data: dados,
-	style: Titanium.UI.iPhone.TableViewStyle.GROUPED
-
+	data: dados
 });
  
 // create table view event listener

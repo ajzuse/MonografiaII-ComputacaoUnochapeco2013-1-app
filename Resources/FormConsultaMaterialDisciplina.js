@@ -38,16 +38,16 @@ function FormConsultaMaterialDisciplina(_NomeDisciplina)
 			});
 			
 			var publicacao = Ti.UI.createLabel({
-        	text: disciplinas.fieldByName('nome'),
-        	id: disciplinas.fieldByName('descricao'),
-	        font:{
-	            fontSize:'auto'
-	        },
-	        height:'auto',
-	        left:'15dp',
-	        bottom:'5dp',
-	        color:'#000',
-	        touchEnabled:false
+	        	text: disciplinas.fieldByName('nome'),
+	        	id: disciplinas.fieldByName('descricao'),
+		        font:{
+		            fontSize:'auto'
+		        },
+		        height:'auto',
+		        left:'15dp',
+		        bottom:'5dp',
+		        color:'#000',
+		        touchEnabled:false
 	        });
 			
 			row.add(label);
@@ -62,9 +62,7 @@ function FormConsultaMaterialDisciplina(_NomeDisciplina)
 		var tvDisciplinasApoio = Titanium.UI.createTableView({
 			top: 0,
 			height: calcularProporcaoAlturaTela(75),
-			data: dados,
-			style: Titanium.UI.iPhone.TableViewStyle.GROUPED
-		
+			data: dados
 		});
 		 
 		// create table view event listener
