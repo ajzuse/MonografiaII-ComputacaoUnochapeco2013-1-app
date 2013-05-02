@@ -71,7 +71,7 @@ tvDisciplinasApoio.addEventListener('click', function(e)
 	}
 	else{
 		var msgG1 = 'Média de G1: ' + detalheNotas.fieldByName('notaG1') + '\n';
-		var msgG2 = 'Média de G1: ' + detalheNotas.fieldByName('notaG2') + '\n';
+		var msgG2 = 'Média de G2: ' + detalheNotas.fieldByName('notaG2') + '\n';
 		
 		conteudo = msgG1 + msgG2;
 		listaBotoes = ['Fechar', 'Detalhes'];
