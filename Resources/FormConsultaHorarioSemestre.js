@@ -36,14 +36,14 @@ disciplinas.close();
 db.close();
 
 // create table view
-var tvDisciplinasApoio = Titanium.UI.createTableView({
+var tvHorariosSemestre = Titanium.UI.createTableView({
 	top: 0,
 	height: calcularProporcaoAlturaTela(75),
 	data: dados
 });
  
 // create table view event listener
-tvDisciplinasApoio.addEventListener('click', function(e)
+tvHorariosSemestre.addEventListener('click', function(e)
 {
 	var db = Ti.Database.open('MinhaUnoDB')
 	var detalheDisciplina = db.execute('select nome, turma, curso, dataG2, dataG3, professor, creditos, turno, grade, periodo from HorarioSemestre where codigo = ?', e.rowData.id);
@@ -97,5 +97,5 @@ btnVoltar.addEventListener('click', function(e){
 });
 		
 formHorariosSemestre.add(btnVoltar);
-formHorariosSemestre.add(tvDisciplinasApoio);
+formHorariosSemestre.add(tvHorariosSemestre);
 formHorariosSemestre.open();
