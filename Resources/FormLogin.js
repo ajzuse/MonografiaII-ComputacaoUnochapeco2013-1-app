@@ -21,101 +21,117 @@ function FormLogin()
 	var btnLogin;
 	
 	this.create = function()
-	{		
-		form = Titanium.UI.createWindow({  
-    		title:'Login',
-    		backgroundColor:'#fff'
-		});
-		
-		scroll = Ti.UI.createScrollView({
-			contentWidth:'auto', 
-			contentHeight:'auto', 
-			top: 0, 
-			showVerticalScrollIndicator: true
-		});
-		
-		imgUnochapeco = Ti.UI.createImageView({
-			image:'LogoUno.png',
-	    	height: AlturaImagem,
-	    	width: LarguraImagem,
-	    	top: calcularProporcaoAlturaTela(5),
-	    	left: DistanciaBorda
-		});
-		
-		lblUsuario = Ti.UI.createLabel
-		({
-			text: 'Usuário',
-		    textAlign:'center',
-		    top: imgUnochapeco.top + AlturaImagem + calcularProporcaoAlturaTela(2),
-		  	height: AlturaLabel,
-		    width:  LarguraLabel,
-		    left:   DistanciaBorda
-		});
-		
-		edtUsuario = Ti.UI.createTextField
-		({
-		  	top: lblUsuario.top + AlturaLabel,
-		    height: AlturaEdit,
-		    width: LarguraEdit,
-		    left: DistanciaBorda,
-		    enableReturnKey:false,
-		   	borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
-		   	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT
-		});
-		
-		lblSenha = Ti.UI.createLabel
-		({
-			text: 'Senha',
-		    textAlign:'center',
-		    top: edtUsuario.top + AlturaEdit + calcularProporcaoAlturaTela(1),
-		    height: AlturaLabel,
-		    width: LarguraLabel,
-		    left: DistanciaBorda
-		});
-		
-		edtSenha = Ti.UI.createTextField
-		({
-			width: LarguraEdit,
-		  	height: AlturaEdit,
-		  	top: lblSenha.top + AlturaLabel,
-		    left: DistanciaBorda,
-		    passwordMask:true,
-		    enableReturnKey:false,
-		   	borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
-		   	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT
-		});
-		
-		//Botoes
-		btnLogin = Ti.UI.createButton
-		({
-			width: LarguraEdit,
-			height: AlturaEdit,
-			top: edtSenha.top + AlturaEdit + calcularProporcaoAlturaTela(10),
-		    left: DistanciaBorda,
-		    title: 'Login'
-		});
-		
-		btnLogin.addEventListener('click', function(e){
-			//var Conexao = new ConexaoServidor(edtUsuario.value, edtSenha.value);
-			//Conexao.extrairInformacoes(function(){
-			var win = Titanium.UI.createWindow({
-    			url: 'FormPrincipal.js',
-    			backgroundColor: 'white'
+	{
+		var db = Ti.Database.open('MinhaUnoDB')
+		db.execute('CREATE TABLE IF NOT EXISTS Configuracao(login TEXT, senha TEXT);');
+		var configuracoes = db.execute('select login, senha from configuracao;');
+		if(!configuracoes.rowCount)
+		{
+			form = Titanium.UI.createWindow({  
+	    		title:'Login',
+	    		backgroundColor:'#fff'
 			});
 			
+			scroll = Ti.UI.createScrollView({
+				contentWidth:'auto', 
+				contentHeight:'auto', 
+				top: 0, 
+				showVerticalScrollIndicator: true
+			});
+			
+			imgUnochapeco = Ti.UI.createImageView({
+				image:'LogoUno.png',
+		    	height: AlturaImagem,
+		    	width: LarguraImagem,
+		    	top: calcularProporcaoAlturaTela(5),
+		    	left: DistanciaBorda
+			});
+			
+			lblUsuario = Ti.UI.createLabel
+			({
+				text: 'Usuário',
+			    textAlign:'center',
+			    top: imgUnochapeco.top + AlturaImagem + calcularProporcaoAlturaTela(2),
+			  	height: AlturaLabel,
+			    width:  LarguraLabel,
+			    left:   DistanciaBorda
+			});
+			
+			edtUsuario = Ti.UI.createTextField
+			({
+			  	top: lblUsuario.top + AlturaLabel,
+			    height: AlturaEdit,
+			    width: LarguraEdit,
+			    left: DistanciaBorda,
+			    enableReturnKey:false,
+			   	borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
+			   	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT
+			});
+			
+			lblSenha = Ti.UI.createLabel
+			({
+				text: 'Senha',
+			    textAlign:'center',
+			    top: edtUsuario.top + AlturaEdit + calcularProporcaoAlturaTela(1),
+			    height: AlturaLabel,
+			    width: LarguraLabel,
+			    left: DistanciaBorda
+			});
+			
+			edtSenha = Ti.UI.createTextField
+			({
+				width: LarguraEdit,
+			  	height: AlturaEdit,
+			  	top: lblSenha.top + AlturaLabel,
+			    left: DistanciaBorda,
+			    passwordMask:true,
+			    enableReturnKey:false,
+			   	borderStyle:Titanium.UI.INPUT_BORDERSTYLE_ROUNDED,
+			   	returnKeyType:Titanium.UI.RETURNKEY_DEFAULT
+			});
+			
+			//Botoes
+			btnLogin = Ti.UI.createButton
+			({
+				width: LarguraEdit,
+				height: AlturaEdit,
+				top: edtSenha.top + AlturaEdit + calcularProporcaoAlturaTela(10),
+			    left: DistanciaBorda,
+			    title: 'Login'
+			});
+			
+			btnLogin.addEventListener('click', function(e){
+				var Conexao = new ConexaoServidor(edtUsuario.value, edtSenha.value);
+				Conexao.extrairInformacoes(function(){
+					db.execute('insert into configuracao(login, senha) values (?,?);', edtUsuario.value, edtSenha.value);
+					var win = Titanium.UI.createWindow({
+		    			url: 'FormPrincipal.js',
+		    			backgroundColor: 'white'
+					});
+					
+					win.open();
+					form.close();
+				});
+			});
+			
+			scroll.add(imgUnochapeco);
+			scroll.add(lblUsuario);
+			scroll.add(edtUsuario);
+			scroll.add(lblSenha);
+			scroll.add(edtSenha);
+			scroll.add(btnLogin);
+			form.add(scroll);
+			form.open();
+		}
+		else
+		{
+			var win = Titanium.UI.createWindow({
+		    	url: 'FormPrincipal.js',
+		    	backgroundColor: 'white'
+			});
+					
 			win.open();
-			form.close();
-			//});
-		});
-		
-		scroll.add(imgUnochapeco);
-		scroll.add(lblUsuario);
-		scroll.add(edtUsuario);
-		scroll.add(lblSenha);
-		scroll.add(edtSenha);
-		scroll.add(btnLogin);
-		form.add(scroll);
-		form.open();
+		}
 	};
 		
 }
